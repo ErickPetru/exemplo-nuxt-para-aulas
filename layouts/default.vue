@@ -27,6 +27,21 @@
               <b-icon :icon="item.icon" /> {{ item.title }}
             </nuxt-link>
           </li>
+
+          <li v-if="login">
+            <a
+              href="logout"
+              exact-active-class="is-active"
+              @click.prevent="logout"
+            >
+              <b-icon icon="github" /> Sair
+            </a>
+          </li>
+          <li v-else>
+            <nuxt-link to="login" exact-active-class="is-active">
+              <b-icon icon="github" /> Acessar
+            </nuxt-link>
+          </li>
         </ul>
       </aside>
 
@@ -38,6 +53,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -54,6 +71,20 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    ...mapState({
+      login: (state) => state.user.login,
+    }),
+  },
+  methods: {
+    ...mapActions({
+      clearUser: 'user/clearUser',
+    }),
+
+    logout() {
+      this.clearUser()
+    },
   },
 }
 </script>
