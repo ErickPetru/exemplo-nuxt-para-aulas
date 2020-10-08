@@ -69,6 +69,11 @@ export default {
           icon: 'lightbulb',
           to: { name: 'inspire' },
         },
+        {
+          title: 'Criar Post',
+          icon: 'plus',
+          to: { name: 'criar-post' },
+        },
       ],
     }
   },
