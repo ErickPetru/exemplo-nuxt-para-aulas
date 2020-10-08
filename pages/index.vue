@@ -1,7 +1,12 @@
 <template>
   <section class="section">
     <div class="columns is-mobile">
-      <card title="Free" icon="github">
+      <card v-for="post of posts" :key="post.id" :title="post.title">
+        <p>De: {{ post.author }}</p>
+        <nuxt-link :to="`post/${post.id}`">Leia mais</nuxt-link>
+      </card>
+
+      <!-- <card title="Free" icon="github">
         Open source on <a href="https://github.com/buefy/buefy"> GitHub </a>
       </card>
 
@@ -16,19 +21,24 @@
 
       <card title="Lightweight" icon="arrange-bring-to-front">
         No other internal dependency
-      </card>
+      </card> -->
     </div>
   </section>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Card from '~/components/Card'
 
 export default {
   name: 'HomePage',
-
   components: {
     Card,
+  },
+  computed: {
+    ...mapState({
+      posts: (state) => state.posts.items,
+    }),
   },
 }
 </script>
