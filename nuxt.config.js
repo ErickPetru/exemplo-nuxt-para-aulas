@@ -27,6 +27,8 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
+    // https://google-analytics.nuxtjs.org/
+    '@nuxtjs/google-analytics',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -39,6 +41,11 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
+
+  // Google Analytics configuration (https://google-analytics.nuxtjs.org/setup)
+  googleAnalytics: {
+    id: 'UA-XXX-X',
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
