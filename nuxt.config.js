@@ -40,7 +40,9 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:8080/',
+  },
 
   // Google Analytics configuration (https://google-analytics.nuxtjs.org/setup)
   googleAnalytics: {
