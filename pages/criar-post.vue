@@ -7,13 +7,18 @@
       :class="titleClass"
       @input="updatedTitle"
     />
-    <input
+    <select
       v-model="author"
       type="text"
       placeholder="Autor"
       :class="authorClass"
       @input="updatedAuthor"
-    />
+    >
+      <option value="">Autor</option>
+      <option v-for="user of users" :key="user._id" :value="user._id">
+        {{ user.name }}
+      </option>
+    </select>
     <textarea
       v-model="content"
       type="text"
@@ -28,11 +33,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
+  async fetch() {
+    const users = await this.$axios.$get('users')
+    this.users = users.sort((a, b) => a.name.localeCompare(b.name))
+  },
   data() {
     return {
+      users: [],
       title: '',
       titleClass: '',
       author: '',
@@ -43,18 +51,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      addPost: 'posts/addPost',
-    }),
-
-    save() {
+    async save() {
       if (!this.isValid()) return false
 
-      this.addPost({
-        id: Math.round(Math.random() * 999999),
+      await this.$axios.$post('posts', {
         title: this.title,
-        author: this.author,
         content: this.content,
+        author: this.author,
       })
 
       this.title = ''
