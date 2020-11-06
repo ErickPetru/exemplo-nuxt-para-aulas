@@ -27,12 +27,12 @@
       @input="updatedContent"
     />
     <button>Salvar</button>
-
-    <p v-if="error">{{ error }}</p>
   </form>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   async fetch() {
     const users = await this.$axios.$get('users')
@@ -47,22 +47,30 @@ export default {
       authorClass: '',
       content: '',
       contentClass: '',
-      error: '',
     }
   },
   methods: {
-    async save() {
+    ...mapActions({
+      showMessage: 'messages/showMessage',
+    }),
+
+    save() {
       if (!this.isValid()) return false
 
-      await this.$axios.$post('posts', {
-        title: this.title,
-        content: this.content,
-        author: this.author,
-      })
+      // await this.$axios.$post('posts', {
+      //   title: this.title,
+      //   content: this.content,
+      //   author: this.author,
+      // })
 
       this.title = ''
       this.author = ''
       this.content = ''
+
+      this.showMessage({
+        message: 'Foi incluído com sucesso!',
+        type: 'is-success',
+      })
     },
 
     isValid() {
@@ -72,19 +80,28 @@ export default {
       this.contentClass = ''
 
       if (!this.title) {
-        this.error = 'O título é obrigatório!'
+        this.showMessage({
+          message: 'O título é obrigatório!',
+          type: 'is-danger',
+        })
         this.titleClass = 'has-text-danger'
         return false
       }
 
       if (!this.author) {
-        this.error = 'O autor é obrigatório!'
+        this.showMessage({
+          message: 'O autor é obrigatório!',
+          type: 'is-danger',
+        })
         this.authorClass = 'has-text-danger'
         return false
       }
 
       if (!this.content) {
-        this.error = 'O conteúdo é obrigatório!'
+        this.showMessage({
+          message: 'O conteúdo é obrigatório!',
+          type: 'is-danger',
+        })
         this.contentClass = 'has-text-danger'
         return false
       }

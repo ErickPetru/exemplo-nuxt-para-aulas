@@ -49,6 +49,11 @@
         <nuxt />
       </div>
     </section>
+
+    <div v-if="messageText" class="notification" :class="messageType">
+      <button class="delete" @click="closeNotification"></button>
+      {{ messageText }}
+    </div>
   </div>
 </template>
 
@@ -80,15 +85,22 @@ export default {
   computed: {
     ...mapState({
       login: (state) => state.user.login,
+      messageText: (state) => state.messages.message,
+      messageType: (state) => state.messages.type,
     }),
   },
   methods: {
     ...mapActions({
       clearUser: 'user/clearUser',
+      showMessage: 'messages/showMessage',
     }),
 
     logout() {
       this.clearUser()
+    },
+
+    closeNotification() {
+      this.showMessage(null)
     },
   },
 }
